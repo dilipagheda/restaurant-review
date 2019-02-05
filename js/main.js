@@ -1,4 +1,9 @@
-
+/***
+ * 
+ * NOTE: Create a fie called 'mapboxtoken.js' and include the MapBox API toke like so in it.
+ *  let let mapBoxToken = "<your MAPBOX API KEY HERE>"
+ * mapboxtoken.js is already included in both html files.
+ */
 let restaurants,
   neighborhoods,
   cuisines
