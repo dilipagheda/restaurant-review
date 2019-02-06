@@ -221,7 +221,7 @@ nav h1 a {
   height: 80vh;
   position: relative;
   right: 0;
-  top: 80px;
+  top: 130px;
   /* width: 50%; */
   width: 100%;
 }
@@ -230,7 +230,9 @@ nav h1 a {
   height: 100%;
   width: 100%;
   position: relative;
+  z-index: 0;
 }
+
 .inside #footer {
   /* bottom: 0; */
   /* position: absolute; */

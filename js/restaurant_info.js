@@ -24,9 +24,9 @@ initMap = () => {
       L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
         mapboxToken: mapBoxToken,
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-          '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-          'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        attribution: 'Map data &copy; <a tabindex="-1" href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+          '<a tabindex="-1" href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+          'Imagery © <a tabindex="-1" href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'    
       }).addTo(newMap);
       fillBreadcrumb();
@@ -82,17 +82,20 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
-
+  name.tabIndex="0";
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.tabIndex="0";
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img'
   image.alt = `A picture of ${restaurant.name}`;
   image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.tabIndex="0";
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
+  cuisine.tabIndex="0";
 
   // fill operating hours
   if (restaurant.operating_hours) {
@@ -112,10 +115,13 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 
     const day = document.createElement('td');
     day.innerHTML = key;
+    day.tabIndex = "0";
     row.appendChild(day);
 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
+    time.tabIndex = "0";
+
     row.appendChild(time);
 
     hours.appendChild(row);
@@ -129,11 +135,13 @@ fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
+  title.tabIndex="0";
   container.appendChild(title);
 
   if (!reviews) {
     const noReviews = document.createElement('p');
     noReviews.innerHTML = 'No reviews yet!';
+    noReviews.tabIndex="0";
     container.appendChild(noReviews);
     return;
   }
@@ -151,8 +159,12 @@ createReviewHTML = (review) => {
   const li = document.createElement('li');
   const header1Div = document.createElement('div');
   header1Div.className="review-header1";
+  header1Div.tabIndex="0";
+  header1Div.setAttribute("aria-label",`Review written by ${review.name} on ${review.date}`)
   const header2Div = document.createElement('div');
   header2Div.className="review-header2";
+  header2Div.tabIndex="0";
+  header2Div.setAttribute("aria-label",`Review rating is ${review.rating}`);
   const name = document.createElement('p');
   name.innerHTML = review.name;
   header1Div.appendChild(name);
@@ -169,6 +181,7 @@ createReviewHTML = (review) => {
 
   const comments = document.createElement('p');
   comments.innerHTML = review.comments;
+  comments.tabIndex="0";
   li.appendChild(comments);
 
   return li;
