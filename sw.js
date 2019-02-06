@@ -5,39 +5,38 @@
 
 var CACHE_NAME = 'restaurant-review-cache-v1';
 var urlsToCache = [
-  '/',
-  '/css/styles.css',
-  '/data/restaurants.json',
-  '/img/1.jpg',
-  '/img/2.jpg',
-  '/img/3.jpg',
-  '/img/4.jpg',
-  '/img/5.jpg',
-  '/img/6.jpg',
-  '/img/7.jpg',
-  '/img/8.jpg',
-  '/img/9.jpg',
-  '/img/10.jpg',
-  '/js/dbhelper.js',
-  '/js/main.js',
-  '/js/mapboxtoken.js',
-  '/js/restaurant_info.js',
-  '/index.html'
+    '/',
+    '/css/styles.css',
+    '/data/restaurants.json',
+    '/img/1.jpg',
+    '/img/2.jpg',
+    '/img/3.jpg',
+    '/img/4.jpg',
+    '/img/5.jpg',
+    '/img/6.jpg',
+    '/img/7.jpg',
+    '/img/8.jpg',
+    '/img/9.jpg',
+    '/img/10.jpg',
+    '/js/dbhelper.js',
+    '/js/main.js',
+    '/js/mapboxtoken.js',
+    '/js/restaurant_info.js',
+    '/index.html'
 ];
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
     // Perform install steps
     event.waitUntil(
         caches.open(CACHE_NAME)
-          .then(function(cache) {
+        .then(function (cache) {
             console.log('Opened cache');
             return cache.addAll(urlsToCache);
-          })
-      );
-  });
+        })
+    );
+});
 
-  self.addEventListener('fetch', function(event) {
-    console.log("fetch");
+self.addEventListener('fetch', function(event) {
     event.respondWith(
       caches.match(event.request)
         .then(function(response) {
@@ -48,10 +47,18 @@ self.addEventListener('install', function(event) {
   
           return fetch(event.request).then(
             function(response) {
+              // Check if we received a valid response
+              // Below code is commented because otherwise MapAPI response are not being cached because they return opaque responses with status code as 0      
+            //   if(!response || response.status !== 200 || response.type !== 'basic') {
+            //     return response;
+            //   }
+              if(!response){
+                  return response;
+              }
               var responseToCache = response.clone();
+  
               caches.open(CACHE_NAME)
                 .then(function(cache) {
-                  console.log("put:"+event.request);
                   cache.put(event.request, responseToCache);
                 });
   
@@ -61,4 +68,3 @@ self.addEventListener('install', function(event) {
         })
       );
   });
-  
